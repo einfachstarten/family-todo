@@ -37,6 +37,21 @@ if (isset($_GET['logout'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Family Todo</title>
     <link rel="stylesheet" href="assets/style.css">
+    <script>
+        // Dark mode handling - inline to ensure it's always available
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+    </script>
     <?php if (!$isLoggedIn): ?>
     <style>
         .login-card {
@@ -167,9 +182,10 @@ if (isset($_GET['logout'])) {
                         name="pin" 
                         class="pin-input" 
                         placeholder="••••" 
-                        maxlength="4" 
+                        maxlength="4"
                         pattern="[0-9]{4}"
                         inputmode="numeric"
+                        autocomplete="new-password"
                         required
                         autofocus
                     >
