@@ -22,6 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Create or open SQLite database
 function getDB() {
     try {
+        // Ensure the SQLite PDO driver is available
+        if (!in_array('sqlite', PDO::getAvailableDrivers())) {
+            http_response_code(500);
+            throw new PDOException('SQLite driver not installed');
+        }
+
         $db = new PDO('sqlite:' . DB_PATH);
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
