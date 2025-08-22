@@ -1,8 +1,12 @@
+// Only initialize todo-related variables if we're on the todo page
 let todos = [];
-const userIdElement = document.getElementById('userId');
-const userId = userIdElement ? userIdElement.value : null;
+let userId = null;
 
-if (userId) {
+// Check if we're on the todo page (userId element exists)
+const userIdElement = document.getElementById('userId');
+if (userIdElement) {
+    userId = userIdElement.value;
+
     // Load todos on page load
     document.addEventListener('DOMContentLoaded', () => {
         loadTodos();
