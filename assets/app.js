@@ -1,45 +1,65 @@
+// Dark mode handling
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+}
+
+// Initialize theme on page load
+initTheme();
+
 let todos = [];
-const userId = document.getElementById('userId').value;
+const userIdElement = document.getElementById('userId');
+const userId = userIdElement ? userIdElement.value : null;
 
-// Load todos on page load
-document.addEventListener('DOMContentLoaded', () => {
-    loadTodos();
-    setInterval(loadTodos, 5000); // Auto-sync every 5 seconds
-});
+if (userId) {
+    // Load todos on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        loadTodos();
+        setInterval(loadTodos, 5000); // Auto-sync every 5 seconds
+    });
 
-// Add todo form handler
-document.getElementById('addTodoForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const input = document.getElementById('todoInput');
-    const priority = document.getElementById('prioritySelect').value;
-    const text = input.value.trim();
-    
-    if (!text) return;
-    
-    try {
-        const response = await fetch('api/todos.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                action: 'create',
-                text: text,
-                priority: priority,
-                user_id: userId
-            })
-        });
-        
-        const result = await response.json();
-        if (result.success) {
-            input.value = '';
-            loadTodos();
+    // Add todo form handler
+    document.getElementById('addTodoForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const input = document.getElementById('todoInput');
+        const priority = document.getElementById('prioritySelect').value;
+        const text = input.value.trim();
+
+        if (!text) return;
+
+        try {
+            const response = await fetch('api/todos.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'create',
+                    text: text,
+                    priority: priority,
+                    user_id: userId
+                })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                input.value = '';
+                loadTodos();
+            }
+        } catch (error) {
+            console.error('Error adding todo:', error);
         }
-    } catch (error) {
-        console.error('Error adding todo:', error);
-    }
-});
+    });
+}
 
 // Load todos from server
 async function loadTodos() {
