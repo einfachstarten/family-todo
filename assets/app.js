@@ -1,20 +1,3 @@
-// Dark mode handling
-function initTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-}
-
-function toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-}
-
-// Initialize theme on page load
-initTheme();
-
 let todos = [];
 const userIdElement = document.getElementById('userId');
 const userId = userIdElement ? userIdElement.value : null;
