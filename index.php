@@ -1,10 +1,5 @@
 <?php
-// Use a writable session path inside the project to avoid 500 errors
-$sessionDir = __DIR__ . '/data/sessions';
-if (!is_dir($sessionDir)) {
-    mkdir($sessionDir, 0755, true);
-}
-session_save_path($sessionDir);
+// Remove custom session path - use default
 session_start();
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['user_id'] = uniqid('user_', true);

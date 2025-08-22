@@ -1,10 +1,6 @@
 # Protect data directory
 RedirectMatch 403 ^/data/.*$
 
-# Enable PHP error reporting (remove in production)
-php_flag display_errors on
-php_value error_reporting E_ALL
-
 # Set default charset
 AddDefaultCharset UTF-8
 
